@@ -6,11 +6,6 @@
     <title>Bio Link - RIDZUAN (MFR)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & ReactDOM CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Babel untuk transpile JSX di browser -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -18,154 +13,140 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0a0a0a;
+            color: #e5e5e5;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="min-h-screen relative overflow-x-hidden">
+    
+    <!-- Efek Cahaya Latar Belakang -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] md:w-[600px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
+    <div class="relative z-10 max-w-md mx-auto px-6 py-12 flex flex-col items-center">
+        
+        <!-- Bahagian Profil -->
+        <div class="text-center mb-8">
+            <div class="relative inline-block mb-4 group">
+                <div class="absolute -inset-1 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-sm opacity-70 group-hover:opacity-100 transition duration-500"></div>
+                <img 
+                    src="https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg" 
+                    alt="RIDZUAN (MFR)" 
+                    class="relative w-28 h-28 object-cover rounded-full border-2 border-[#121212]"
+                >
+            </div>
+            <h1 class="text-2xl font-bold text-white tracking-tight mb-1">RIDZUAN (MFR)</h1>
+            <p class="text-sm font-medium text-blue-400 mb-3">BizOn9 Empire</p>
+            <p class="text-neutral-400 text-sm leading-relaxed max-w-[300px] mx-auto">
+                Membina produk digital dan website/landing page yang cantik. Jika berminat boleh klik butang dibawah.
+            </p>
+        </div>
 
-        // Komponen Ikon TikTok Tersuai
-        const TiktokIcon = ({ size = 22, className = "" }) => (
-            <svg 
-                width={size} 
-                height={size} 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                className={className}
-            >
-                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-            </svg>
-        );
+        <!-- Ikon Media Sosial Cepat -->
+        <div class="flex gap-4 mb-10">
+            <a href="#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
+                <i data-lucide="twitter" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
+                <i data-lucide="github" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
+                <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+            <a href="mailto:#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+            </a>
+        </div>
 
-        // Komponen Utama
-        const App = () => {
-            const profile = {
-                name: "RIDZUAN (MFR)",
-                role: "BizOn9 Empire",
-                bio: "Membina produk digital dan website/landing page yang cantik. Jika berminat boleh klik butang dibawah.",
-                avatar: "https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg"
-            };
+        <!-- Senarai Pautan Utaman -->
+        <div id="links-container" class="w-full space-y-4">
+            <!-- Pautan akan dijanakan di sini oleh JS -->
+        </div>
 
-            const mainLinks = [
-                {
-                    title: "Laman Web Rasmi",
-                    subtitle: "Ketahui lebih lanjut tentang saya",
-                    icon: "globe",
-                    iconColor: "text-blue-400",
-                    url: "#",
-                    featured: true
-                },
-                {
-                    title: "Instagram",
-                    subtitle: "Lihat laman sosial",
-                    icon: "instagram",
-                    iconColor: "text-pink-500",
-                    url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag=="
-                },
-                {
-                    title: "Tiktok",
-                    subtitle: "Lihat laman sosial",
-                    isTiktok: true,
-                    iconColor: "text-white",
-                    url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu"
-                },
-                {
-                    title: "Whatsapp",
-                    subtitle: "Contact MFR",
-                    icon: "message-circle",
-                    iconColor: "text-emerald-500",
-                    url: "https://wa.me/60177798786"
-                }
-            ];
+        <!-- Footer -->
+        <footer class="mt-16 text-center">
+            <p class="text-xs text-neutral-600 font-medium tracking-wide">
+                &copy; <span id="year"></span> BizOn9 Empire. Dibina oleh MFR
+            </p>
+        </footer>
+    </div>
 
-            useEffect(() => {
-                // Inisialisasi ikon Lucide selepas render
-                if (window.lucide) {
-                    window.lucide.createIcons();
-                }
-            }, []);
+    <script>
+        // Data Pautan
+        const mainLinks = [
+            {
+                title: "Laman Web Rasmi",
+                subtitle: "Ketahui lebih lanjut tentang saya",
+                icon: "globe",
+                color: "text-blue-400",
+                url: "#",
+                featured: true
+            },
+            {
+                title: "Instagram",
+                subtitle: "Lihat laman sosial",
+                icon: "instagram",
+                color: "text-pink-500",
+                url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag=="
+            },
+            {
+                title: "Tiktok",
+                subtitle: "Lihat laman sosial",
+                isTiktok: true,
+                color: "text-white",
+                url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu"
+            },
+            {
+                title: "Whatsapp",
+                subtitle: "Contact MFR",
+                icon: "message-circle",
+                color: "text-emerald-500",
+                url: "https://wa.me/60177798786"
+            }
+        ];
 
-            return (
-                <div className="min-h-screen text-neutral-200 flex justify-center p-4 sm:p-8 relative overflow-hidden">
-                    {/* Efek Cahaya Latar Belakang */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] md:w-[600px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+        // Fungsi untuk menjana HTML bagi setiap pautan
+        function renderLinks() {
+            const container = document.getElementById('links-container');
+            container.innerHTML = mainLinks.map(link => `
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer" 
+                   class="group flex items-center p-4 rounded-2xl glass hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] shadow-xl ${link.featured ? 'ring-1 ring-blue-500/50 bg-blue-500/5' : ''}">
                     
-                    <div className="w-full max-w-md relative z-10 flex flex-col items-center mt-8">
-                        {/* Bahagian Profil */}
-                        <div className="flex flex-col items-center text-center mb-10">
-                            <div className="relative mb-5 group">
-                                <div className="absolute -inset-1 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-sm opacity-70 group-hover:opacity-100 transition duration-500"></div>
-                                <img 
-                                    src={profile.avatar} 
-                                    alt={profile.name} 
-                                    className="relative w-28 h-28 object-cover rounded-full border-2 border-[#121212]"
-                                />
-                            </div>
-                            
-                            <h1 className="text-2xl font-bold tracking-tight text-white mb-1">{profile.name}</h1>
-                            <p className="text-sm font-medium text-blue-400 mb-3">{profile.role}</p>
-                            <p className="text-neutral-400 text-sm max-w-[280px] leading-relaxed">{profile.bio}</p>
-                        </div>
-
-                        {/* Ikon Media Sosial Ringkas */}
-                        <div className="flex gap-4 mb-10">
-                            {['twitter', 'github', 'linkedin', 'mail'].map((iconName) => (
-                                <a key={iconName} href="#" className="p-3 rounded-full bg-white/5 border border-white/10 text-neutral-400 hover:text-white hover:bg-white/10 transition-all">
-                                    <i data-lucide={iconName} className="w-5 h-5"></i>
-                                </a>
-                            ))}
-                        </div>
-
-                        {/* Senarai Kad Pautan */}
-                        <div className="w-full space-y-4">
-                            {mainLinks.map((link, index) => (
-                                <a 
-                                    key={index} 
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`group flex items-center p-4 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-black/20 ${link.featured ? 'ring-1 ring-blue-500/50 bg-blue-500/5' : ''}`}
-                                >
-                                    <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-[#1a1a1a] border border-white/5 group-hover:bg-[#222] transition-colors">
-                                        {link.isTiktok ? (
-                                            <TiktokIcon className={link.iconColor} />
-                                        ) : (
-                                            <i data-lucide={link.icon} className={`w-6 h-6 ${link.iconColor}`}></i>
-                                        )}
-                                    </div>
-                                    
-                                    <div className="ml-4 flex-grow">
-                                        <h2 className="text-sm font-semibold text-white group-hover:text-blue-100 transition-colors">{link.title}</h2>
-                                        <p className="text-xs text-neutral-500 mt-0.5">{link.subtitle}</p>
-                                    </div>
-
-                                    <div className="flex-shrink-0 text-neutral-600 group-hover:text-white transition-colors">
-                                        <i data-lucide="arrow-right" className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"></i>
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
-
-                        {/* Pengaki */}
-                        <div className="mt-12 mb-8 text-center">
-                            <p className="text-xs text-neutral-600 font-medium">
-                                &copy; {new Date().getFullYear()} BizOn9 Empire. Dibina oleh MFR
-                            </p>
-                        </div>
+                    <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-black/40 border border-white/5 group-hover:bg-black/60 transition-colors">
+                        ${link.isTiktok ? `
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${link.color}">
+                                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                            </svg>
+                        ` : `
+                            <i data-lucide="${link.icon}" class="w-6 h-6 ${link.color}"></i>
+                        `}
                     </div>
-                </div>
-            );
-        };
+                    
+                    <div class="ml-4 flex-grow">
+                        <h2 class="text-sm font-semibold text-white group-hover:text-blue-100 transition-colors">${link.title}</h2>
+                        <p class="text-xs text-neutral-500 mt-0.5">${link.subtitle}</p>
+                    </div>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+                    <div class="flex-shrink-0 text-neutral-600 group-hover:text-white transition-colors">
+                        <i data-lucide="arrow-right" class="w-5 h-5 transform group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </a>
+            `).join('');
+            
+            // Inisialisasi ikon Lucide
+            lucide.createIcons();
+        }
+
+        // Set tahun semasa di footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Jalankan render apabila DOM sedia
+        document.addEventListener('DOMContentLoaded', renderLinks);
     </script>
 </body>
 </html>
