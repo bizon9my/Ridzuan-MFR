@@ -13,9 +13,10 @@
         
         :root {
             --bg-dark: #050505;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #8b5cf6;
             --designer-grid: rgba(255, 255, 255, 0.03);
+            --flame-1: #f97316;
+            --flame-2: #ef4444;
+            --flame-3: #facc15;
         }
 
         body {
@@ -46,32 +47,52 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Gradient Cahaya Studio */
+        /* Kesan Api pada Profil */
+        .flame-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .flame-glow {
+            position: absolute;
+            inset: -10px;
+            background: radial-gradient(circle, var(--flame-1), var(--flame-2), transparent 70%);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.6;
+            animation: flicker 0.15s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        /* Zarah Asap (Smoke Particles) */
+        .smoke-particle {
+            position: absolute;
+            background: rgba(200, 200, 200, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(8px);
+            z-index: 5;
+            animation: smokeRise 3s ease-out forwards;
+        }
+
+        @keyframes smokeRise {
+            0% { transform: translateY(0) scale(1); opacity: 0.4; }
+            100% { transform: translateY(-120px) scale(3); opacity: 0; }
+        }
+
+        /* Studio Lights */
         .studio-light {
             position: fixed;
             border-radius: 50%;
             filter: blur(130px);
-            z-index: -2; opacity: 0.3;
-            animation: pulse-light 10s infinite alternate ease-in-out;
+            z-index: -2; opacity: 0.2;
         }
-        .light-1 { width: 800px; height: 800px; background: radial-gradient(circle, var(--accent-primary), transparent); top: -300px; left: -200px; }
-        .light-2 { width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-secondary), transparent); bottom: -100px; right: -100px; animation-delay: -5s; }
-
-        @keyframes pulse-light {
-            0% { transform: scale(1) translate(0, 0); opacity: 0.2; }
-            100% { transform: scale(1.1) translate(30px, 50px); opacity: 0.35; }
-        }
-
-        /* Elemen Floating UI Abstract */
-        .floating-element {
-            position: fixed;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            backdrop-filter: blur(5px);
-            z-index: -1;
-            pointer-events: none;
-        }
+        .light-1 { width: 800px; height: 800px; background: radial-gradient(circle, #3b82f6, transparent); top: -300px; left: -200px; }
+        .light-2 { width: 600px; height: 600px; background: radial-gradient(circle, #8b5cf6, transparent); bottom: -100px; right: -100px; }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
@@ -81,15 +102,8 @@
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .glass-card:hover {
-            border-color: rgba(59, 130, 246, 0.4);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-4px) scale(1.01);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
         .shimmer-text {
-            background: linear-gradient(90deg, #fff, #3b82f6, #fff);
+            background: linear-gradient(90deg, #fff, var(--shimmer-color, #3b82f6), #fff);
             background-size: 200% auto;
             color: transparent;
             -webkit-background-clip: text;
@@ -102,41 +116,37 @@
 </head>
 <body class="noise">
     
-    <!-- Designer Background Layers -->
     <div class="design-canvas"></div>
     <div class="studio-light light-1"></div>
     <div class="studio-light light-2"></div>
     
-    <!-- Abstract Designer Elements -->
-    <div class="floating-element w-32 h-32 top-20 left-[10%] rotate-12 opacity-20 hidden md:block"></div>
-    <div class="floating-element w-24 h-48 bottom-40 right-[15%] -rotate-6 opacity-10 hidden md:block"></div>
-
     <div class="max-w-md mx-auto px-6 py-20 flex flex-col items-center relative z-10">
         
         <header class="text-center mb-14 w-full flex flex-col items-center">
-            <div class="relative group mb-8">
-                <!-- Outer Ring Glow -->
-                <div class="absolute -inset-3 bg-blue-500/10 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+            <!-- Container Gambar Profil dengan Api & Asap -->
+            <div class="relative mb-8 flame-container" id="profile-area">
+                <!-- Lapisan Api -->
+                <div class="flame-glow"></div>
                 
-                <div class="relative p-[2px] rounded-full bg-gradient-to-tr from-white/20 via-white/5 to-transparent shadow-2xl">
+                <div class="relative p-[3px] rounded-full bg-gradient-to-tr from-orange-500 via-red-500 to-yellow-500 shadow-2xl z-20">
                     <img 
                         src="https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg" 
                         alt="RIDZUAN (MFR)" 
                         class="w-32 h-32 object-cover rounded-full border-4 border-[#050505]"
                     >
-                    <!-- Status Active -->
-                    <div class="absolute bottom-2 right-4 bg-blue-500 w-5 h-5 rounded-full border-4 border-[#050505] shadow-lg">
-                        <span class="absolute inset-0 bg-blue-400 rounded-full animate-ping opacity-75"></span>
+                    <!-- Status Aktif -->
+                    <div class="absolute bottom-2 right-4 bg-orange-500 w-5 h-5 rounded-full border-4 border-[#050505] shadow-lg">
+                        <span class="absolute inset-0 bg-yellow-400 rounded-full animate-ping opacity-75"></span>
                     </div>
                 </div>
             </div>
 
             <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">
-                RIDZUAN <span class="text-blue-500">(MFR)</span>
+                RIDZUAN <span class="text-orange-500">(MFR)</span>
             </h1>
             
             <div class="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-lg mb-6 backdrop-blur-md">
-                <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i>
+                <i data-lucide="flame" class="w-3.5 h-3.5 text-orange-400"></i>
                 <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">BizOn9 Empire</span>
             </div>
 
@@ -145,73 +155,130 @@
             </p>
         </header>
 
-        <!-- Main Links Section -->
+        <!-- Bahagian Pautan Utama -->
         <div id="links-list" class="w-full space-y-4">
-            <!-- Content generated by JS -->
+            <!-- Kandungan dijana oleh JS -->
         </div>
 
-        <!-- Footer -->
         <footer class="mt-28 text-center pb-10">
             <div class="h-px w-10 bg-white/10 mx-auto mb-6"></div>
             <p class="text-[10px] uppercase tracking-[0.4em] text-neutral-600 font-bold">
-                &copy; <span id="year"></span> BizOn9 Empire &bull; Minimalist Portfolio
+                &copy; <span id="year"></span> BizOn9 Empire &bull; Portofolio Berapi
             </p>
         </footer>
     </div>
 
     <script>
+        // Penjana Asap Dinamik
+        function createSmoke() {
+            const container = document.getElementById('profile-area');
+            if (!container) return;
+            const smoke = document.createElement('div');
+            smoke.className = 'smoke-particle';
+            
+            const size = Math.random() * 20 + 10;
+            const left = Math.random() * 80 + 20;
+            
+            smoke.style.width = `${size}px`;
+            smoke.style.height = `${size}px`;
+            smoke.style.left = `${left}px`;
+            smoke.style.bottom = '10px';
+            
+            container.appendChild(smoke);
+            
+            setTimeout(() => {
+                smoke.remove();
+            }, 3000);
+        }
+
+        setInterval(createSmoke, 200);
+
         const links = [
             { 
-                title: "Laman Web Rasmi", 
-                desc: "Ekosistem BizOn9 Empire", 
-                icon: "globe", 
-                color: "text-blue-400", 
-                url: "#", 
+                title: "Copytrade VRS EA", 
+                desc: "Adakah anda seorang trader GOLD tegar? Klik sini", 
+                icon: "trending-up", 
+                theme: "orange", 
+                url: "https://bizon9my.github.io/Copytrade-VRS-EA/", 
                 highlight: true 
             },
             { 
+                title: "Servis Landing Page/Website Simple", 
+                desc: "Dapatkan servis kami disini", 
+                icon: "layout-template", 
+                theme: "indigo", 
+                url: "https://bizon9my.github.io/Servis-Landing-Page/" 
+            },
+            { 
+                title: "Servis Design Gambar Produk", 
+                desc: "Dapatkan servis kami disini", 
+                icon: "image", 
+                theme: "amber", 
+                url: "#",
+                isComingSoon: true
+            },
+            { 
                 title: "Instagram", 
-                desc: "@mfrdotbiz - Visual & Design", 
+                desc: "Laman Sosial", 
                 icon: "instagram", 
-                color: "text-pink-500", 
+                theme: "rose", 
                 url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag==" 
             },
             { 
-                title: "TikTok Profile", 
-                desc: "@mfr_rakankongsi - Tech Tips", 
+                title: "Tiktok", 
+                desc: "Laman sosial", 
                 icon: "tiktok", 
-                color: "text-white", 
+                theme: "neutral", 
                 url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu" 
             },
             { 
-                title: "WhatsApp Business", 
-                desc: "Mula projek anda hari ini", 
+                title: "Whatsapp Admin", 
+                desc: "Hubungi admin disini", 
                 icon: "message-square", 
-                color: "text-emerald-500", 
+                theme: "emerald", 
                 url: "https://wa.me/60177798786" 
             }
         ];
 
+        const themeMap = {
+            orange: { icon: "text-orange-400", border: "hover:border-orange-500/50", glow: "bg-orange-500/10", shimmer: "#fb923c" },
+            indigo: { icon: "text-indigo-400", border: "hover:border-indigo-500/50", glow: "bg-indigo-500/10", shimmer: "#818cf8" },
+            violet: { icon: "text-violet-400", border: "hover:border-violet-500/50", glow: "bg-violet-500/10", shimmer: "#a78bfa" },
+            amber: { icon: "text-amber-400", border: "hover:border-amber-500/50", glow: "bg-amber-500/10", shimmer: "#fbbf24" },
+            rose: { icon: "text-rose-400", border: "hover:border-rose-500/50", glow: "bg-rose-500/10", shimmer: "#fb7185" },
+            emerald: { icon: "text-emerald-400", border: "hover:border-emerald-500/50", glow: "bg-emerald-500/10", shimmer: "#34d399" },
+            neutral: { icon: "text-slate-100", border: "hover:border-slate-400/50", glow: "bg-slate-500/10", shimmer: "#f8fafc" }
+        };
+
         function render() {
             const container = document.getElementById('links-list');
+            if (!container) return;
             container.innerHTML = links.map(l => {
-                let iconHtml = `<i data-lucide="${l.icon}" class="w-5 h-5 ${l.color}"></i>`;
+                const colors = themeMap[l.theme] || themeMap.orange;
+                let iconHtml = `<i data-lucide="${l.icon}" class="w-5 h-5 ${colors.icon}"></i>`;
                 
-                // SVG Khas untuk TikTok kerana Lucide CDN selalunya tidak menyokong logo jenama secara terus
                 if (l.icon === 'tiktok') {
                     iconHtml = `
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${l.color}">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${colors.icon}">
                             <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
                         </svg>
                     `;
                 }
 
                 return `
-                    <a href="${l.url}" target="_blank" rel="noopener" 
-                       class="glass-card group flex items-center p-4 rounded-2xl relative overflow-hidden">
-                        ${l.highlight ? '<div class="absolute inset-0 bg-blue-500/5"></div>' : ''}
+                    <a href="${l.url}" ${l.isComingSoon ? 'onclick="return false;"' : 'target="_blank"'} rel="noopener" 
+                       class="glass-card group flex items-center p-4 rounded-2xl relative overflow-hidden ${colors.border} ${l.isComingSoon ? 'cursor-default opacity-80' : ''}"
+                       style="--shimmer-color: ${colors.shimmer}">
                         
-                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-white/10 transition-colors">
+                        ${l.isComingSoon ? `
+                            <div class="absolute top-0 right-0 bg-amber-500 text-[9px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-wider text-black z-20">
+                                Akan Datang
+                            </div>
+                        ` : ''}
+
+                        ${l.highlight ? `<div class="absolute inset-0 ${colors.glow} animate-pulse"></div>` : ''}
+                        
+                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-105 transition-all duration-300">
                             ${iconHtml}
                         </div>
 
@@ -220,7 +287,7 @@
                             <p class="text-[11px] text-neutral-500 font-medium tracking-tight">${l.desc}</p>
                         </div>
 
-                        <div class="text-neutral-600 group-hover:text-white transform group-hover:translate-x-1 transition-all">
+                        <div class="text-neutral-600 ${l.isComingSoon ? 'hidden' : 'group-hover:text-white transform group-hover:translate-x-1 transition-all'}">
                             <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                         </div>
                     </a>
