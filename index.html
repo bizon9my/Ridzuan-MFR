@@ -9,144 +9,281 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: #e5e5e5;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-dark: #020202;
+            --accent-primary: #0ea5e9;
+            --accent-secondary: #6366f1;
+            --electric-glow: rgba(14, 165, 233, 0.5);
         }
-        .glass {
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Tekstur Noise/Grain untuk rupa premium */
+        .noise::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0.04;
+            z-index: 50;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Mesh Gradient Latar Belakang */
+        .gradient-sphere {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -2;
+            opacity: 0.25;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .sphere-1 { width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-primary), transparent); top: -200px; left: -100px; }
+        .sphere-2 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-secondary), transparent); bottom: -100px; right: -100px; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(60px, 80px) scale(1.1); }
+        }
+
+        /* Kesan Elektrik (Electric Arcs) */
+        .electric-arc {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            filter: drop-shadow(0 0 8px var(--accent-primary));
+        }
+
+        @keyframes electric-pulse {
+            0% { opacity: 0; stroke-dashoffset: 100; }
+            10% { opacity: 1; }
+            30% { opacity: 0.8; stroke-dashoffset: 0; }
+            50% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-color: rgba(14, 165, 233, 0.4);
+            transform: scale(1.02) translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(14, 165, 233, 0.1);
+        }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, #fff, #0ea5e9, #fff);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 5s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        .grid-bg {
+            background-image: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+            background-size: 60px 60px;
         }
     </style>
 </head>
-<body class="min-h-screen relative overflow-x-hidden">
+<body class="noise">
     
-    <!-- Efek Cahaya Latar Belakang -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] md:w-[600px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <!-- Elemen Latar Belakang -->
+    <div class="fixed inset-0 grid-bg z-[-3]"></div>
+    <div class="gradient-sphere sphere-1"></div>
+    <div class="gradient-sphere sphere-2"></div>
+    
+    <!-- Container Elektrik -->
+    <div id="electric-container" class="fixed inset-0 z-[-1] pointer-events-none"></div>
 
-    <div class="relative z-10 max-w-md mx-auto px-6 py-12 flex flex-col items-center">
+    <div class="max-w-md mx-auto px-6 py-16 flex flex-col items-center relative z-10">
         
-        <!-- Bahagian Profil -->
-        <div class="text-center mb-8">
-            <div class="relative inline-block mb-4 group">
-                <div class="absolute -inset-1 bg-gradient-to-tr from-blue-500 to-purple-500 rounded-full blur-sm opacity-70 group-hover:opacity-100 transition duration-500"></div>
-                <img 
-                    src="https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg" 
-                    alt="RIDZUAN (MFR)" 
-                    class="relative w-28 h-28 object-cover rounded-full border-2 border-[#121212]"
-                >
+        <!-- Pengepala / Profil -->
+        <header class="text-center mb-12 w-full flex flex-col items-center">
+            <div class="relative group mb-6">
+                <!-- Outer Glow Profil -->
+                <div class="absolute -inset-2 bg-sky-500/20 rounded-full blur-2xl opacity-40 group-hover:opacity-80 transition duration-1000"></div>
+                
+                <div class="relative p-[3px] rounded-full bg-gradient-to-tr from-white/10 to-white/5 shadow-2xl">
+                    <img 
+                        src="https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg" 
+                        alt="RIDZUAN (MFR)" 
+                        class="w-32 h-32 object-cover rounded-full border-4 border-[#020202]"
+                    >
+                    <!-- Status "Live" -->
+                    <div class="absolute bottom-1 right-3 bg-sky-500 w-6 h-6 rounded-full border-4 border-[#020202] flex items-center justify-center shadow-lg">
+                        <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
+                    </div>
+                </div>
             </div>
-            <h1 class="text-2xl font-bold text-white tracking-tight mb-1">RIDZUAN (MFR)</h1>
-            <p class="text-sm font-medium text-blue-400 mb-3">BizOn9 Empire</p>
-            <p class="text-neutral-400 text-sm leading-relaxed max-w-[300px] mx-auto">
+
+            <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">RIDZUAN <span class="text-sky-500">(MFR)</span></h1>
+            
+            <div class="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full mb-6">
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400">BizOn9 Empire</span>
+            </div>
+
+            <p class="text-neutral-400 text-[15px] leading-relaxed max-w-[320px] font-medium">
                 Membina produk digital dan website/landing page yang cantik. Jika berminat boleh klik butang dibawah.
             </p>
+        </header>
+
+        <!-- Senarai Pautan -->
+        <div id="links-list" class="w-full space-y-4">
+            <!-- Dijana oleh JavaScript -->
         </div>
 
-        <!-- Ikon Media Sosial Cepat -->
-        <div class="flex gap-4 mb-10">
-            <a href="#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
-                <i data-lucide="twitter" class="w-5 h-5"></i>
-            </a>
-            <a href="#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
-                <i data-lucide="github" class="w-5 h-5"></i>
-            </a>
-            <a href="#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
-                <i data-lucide="linkedin" class="w-5 h-5"></i>
-            </a>
-            <a href="mailto:#" class="p-3 rounded-full glass text-neutral-400 hover:text-white transition-all hover:-translate-y-1">
-                <i data-lucide="mail" class="w-5 h-5"></i>
-            </a>
-        </div>
-
-        <!-- Senarai Pautan Utaman -->
-        <div id="links-container" class="w-full space-y-4">
-            <!-- Pautan akan dijanakan di sini oleh JS -->
-        </div>
-
-        <!-- Footer -->
-        <footer class="mt-16 text-center">
-            <p class="text-xs text-neutral-600 font-medium tracking-wide">
-                &copy; <span id="year"></span> BizOn9 Empire. Dibina oleh MFR
+        <!-- Pengaki -->
+        <footer class="mt-24 text-center pb-8">
+            <div class="h-px w-12 bg-white/5 mx-auto mb-6"></div>
+            <p class="text-[11px] uppercase tracking-[0.3em] text-neutral-600 font-bold">
+                &copy; <span id="year"></span> BizOn9 Empire &bull; Dibina oleh MFR
             </p>
         </footer>
     </div>
 
     <script>
-        // Data Pautan
-        const mainLinks = [
+        const links = [
             {
                 title: "Laman Web Rasmi",
-                subtitle: "Ketahui lebih lanjut tentang saya",
-                icon: "globe",
-                color: "text-blue-400",
+                desc: "Lihat ekosistem BizOn9 Empire",
+                icon: "layout",
+                color: "text-sky-400",
                 url: "#",
-                featured: true
+                highlight: true
             },
             {
                 title: "Instagram",
-                subtitle: "Lihat laman sosial",
+                desc: "@mfrdotbiz - Gaya hidup digital",
                 icon: "instagram",
                 color: "text-pink-500",
                 url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag=="
             },
             {
-                title: "Tiktok",
-                subtitle: "Lihat laman sosial",
-                isTiktok: true,
+                title: "TikTok Profile",
+                desc: "@mfr_rakankongsi - Tips & Tutorial",
+                icon: "video",
                 color: "text-white",
-                url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu"
+                url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu",
+                isTiktok: true
             },
             {
-                title: "Whatsapp",
-                subtitle: "Contact MFR",
+                title: "WhatsApp Business",
+                desc: "Contact MFR untuk konsultasi",
                 icon: "message-circle",
                 color: "text-emerald-500",
                 url: "https://wa.me/60177798786"
             }
         ];
 
-        // Fungsi untuk menjana HTML bagi setiap pautan
-        function renderLinks() {
-            const container = document.getElementById('links-container');
-            container.innerHTML = mainLinks.map(link => `
-                <a href="${link.url}" target="_blank" rel="noopener noreferrer" 
-                   class="group flex items-center p-4 rounded-2xl glass hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] shadow-xl ${link.featured ? 'ring-1 ring-blue-500/50 bg-blue-500/5' : ''}">
+        // Generator Kesan Elektrik (Electric Arcs)
+        function createElectricArc() {
+            const container = document.getElementById('electric-container');
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            
+            const width = 100 + Math.random() * 200;
+            const height = 200 + Math.random() * 300;
+            
+            svg.setAttribute("width", width);
+            svg.setAttribute("height", height);
+            svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+            svg.classList.add("electric-arc");
+            
+            // Random position
+            svg.style.left = Math.random() * 100 + "%";
+            svg.style.top = Math.random() * 80 + "%";
+            svg.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            // Generate Jagged Path
+            const path = document.createElementNS(svgNS, "path");
+            let d = `M ${width/2} 0 `;
+            let currentX = width/2;
+            let currentY = 0;
+            const segments = 8;
+            
+            for(let i = 1; i <= segments; i++) {
+                currentX += (Math.random() - 0.5) * 60;
+                currentY += height / segments;
+                d += `L ${currentX} ${currentY} `;
+            }
+            
+            path.setAttribute("d", d);
+            path.setAttribute("stroke", "white");
+            path.setAttribute("stroke-width", "2");
+            path.setAttribute("fill", "none");
+            path.style.animation = "electric-pulse 0.4s ease-out forwards";
+            
+            svg.appendChild(path);
+            container.appendChild(svg);
+            
+            setTimeout(() => svg.remove(), 400);
+            
+            // Repeat with random delay for "crackling" effect
+            setTimeout(createElectricArc, Math.random() * 2000 + 500);
+        }
+
+        function render() {
+            const container = document.getElementById('links-list');
+            container.innerHTML = links.map(l => `
+                <a href="${l.url}" target="_blank" rel="noopener" class="glass-card group flex items-center p-4 rounded-2xl relative overflow-hidden">
+                    ${l.highlight ? '<div class="absolute inset-0 bg-sky-500/5 animate-pulse"></div>' : ''}
                     
-                    <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-black/40 border border-white/5 group-hover:bg-black/60 transition-colors">
-                        ${link.isTiktok ? `
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${link.color}">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
+                        ${l.isTiktok ? `
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${l.color}">
                                 <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
                             </svg>
                         ` : `
-                            <i data-lucide="${link.icon}" class="w-6 h-6 ${link.color}"></i>
+                            <i data-lucide="${l.icon}" class="w-6 h-6 ${l.color}"></i>
                         `}
                     </div>
-                    
+
                     <div class="ml-4 flex-grow">
-                        <h2 class="text-sm font-semibold text-white group-hover:text-blue-100 transition-colors">${link.title}</h2>
-                        <p class="text-xs text-neutral-500 mt-0.5">${link.subtitle}</p>
+                        <h2 class="text-sm font-bold text-white mb-0.5 ${l.highlight ? 'shimmer-text' : ''}">${l.title}</h2>
+                        <p class="text-[11px] text-neutral-500 font-medium">${l.desc}</p>
                     </div>
 
-                    <div class="flex-shrink-0 text-neutral-600 group-hover:text-white transition-colors">
-                        <i data-lucide="arrow-right" class="w-5 h-5 transform group-hover:translate-x-1 transition-transform"></i>
-                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-600 group-hover:text-white transform group-hover:translate-x-1 transition-all"></i>
                 </a>
             `).join('');
-            
-            // Inisialisasi ikon Lucide
+
             lucide.createIcons();
         }
 
-        // Set tahun semasa di footer
         document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Jalankan render apabila DOM sedia
-        document.addEventListener('DOMContentLoaded', renderLinks);
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
+            // Mula kesan elektrik
+            setTimeout(createElectricArc, 500);
+            // Tambah spark tambahan secara rawak
+            setInterval(() => {
+                if(Math.random() > 0.7) createElectricArc();
+            }, 1500);
+        });
     </script>
 </body>
 </html>
