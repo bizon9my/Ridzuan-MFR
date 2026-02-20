@@ -12,10 +12,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         
         :root {
-            --bg-dark: #020202;
-            --accent-primary: #0ea5e9;
-            --accent-secondary: #6366f1;
-            --ai-glow: rgba(14, 165, 233, 0.15);
+            --bg-dark: #050505;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --designer-grid: rgba(255, 255, 255, 0.03);
         }
 
         body {
@@ -26,322 +26,212 @@
             overflow-x: hidden;
         }
 
-        /* Tekstur Noise Halus */
-        .noise::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            opacity: 0.04; z-index: 50; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        /* Latar Belakang Digital AI (Circuit & Nodes) */
-        .digital-ai-bg {
+        /* Latar Belakang "Design Canvas" */
+        .design-canvas {
             position: fixed;
             inset: 0;
             z-index: -3;
             background-image: 
-                radial-gradient(circle at 2px 2px, rgba(14, 165, 233, 0.05) 1px, transparent 0);
-            background-size: 40px 40px;
+                linear-gradient(var(--designer-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--designer-grid) 1px, transparent 1px);
+            background-size: 50px 50px;
         }
 
-        /* Kesan Imbasan Cahaya AI */
-        .ai-scanner {
+        /* Kesan Noise & Grain */
+        .noise::before {
+            content: "";
             position: fixed;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
-            opacity: 0.2;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            opacity: 0.03; z-index: 50; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Gradient Cahaya Studio */
+        .studio-light {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(130px);
+            z-index: -2; opacity: 0.3;
+            animation: pulse-light 10s infinite alternate ease-in-out;
+        }
+        .light-1 { width: 800px; height: 800px; background: radial-gradient(circle, var(--accent-primary), transparent); top: -300px; left: -200px; }
+        .light-2 { width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-secondary), transparent); bottom: -100px; right: -100px; animation-delay: -5s; }
+
+        @keyframes pulse-light {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.2; }
+            100% { transform: scale(1.1) translate(30px, 50px); opacity: 0.35; }
+        }
+
+        /* Elemen Floating UI Abstract */
+        .floating-element {
+            position: fixed;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
             z-index: -1;
-            animation: scan 8s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100vh; }
-        }
-
-        /* Mesh Gradient Dinamik */
-        .gradient-sphere {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -2; opacity: 0.2;
-            animation: float-bg 20s infinite alternate ease-in-out;
-        }
-        .sphere-1 { width: 600px; height: 600px; background: radial-gradient(circle, var(--accent-primary), transparent); top: -200px; left: -100px; }
-        .sphere-2 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-secondary), transparent); bottom: -100px; right: -100px; animation-delay: -5s; }
-
-        @keyframes float-bg {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(60px, 80px) scale(1.1); }
-        }
-
-        /* Animasi Robot AI Sequence */
-        .ai-robot-container {
-            position: fixed;
-            bottom: -300px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
             pointer-events: none;
-            animation: flyAIExtreme 10.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) forwards;
-        }
-
-        @keyframes flyAIExtreme {
-            0% { bottom: -150px; transform: translateX(-50%) scale(0.4) rotate(0deg); }
-            20% { bottom: 45%; transform: translateX(-50%) scale(0.9) rotate(-10deg); }
-            30% { bottom: 42%; transform: translateX(-65%) scale(0.9) rotate(20deg); }
-            38% { bottom: 28%; transform: translateX(-35%) scale(0.9) rotate(-35deg); }
-            45% { bottom: 22%; transform: translateX(-50%) scale(0.9) rotate(15deg); }
-            55% { bottom: 35%; transform: translateX(-50%) scale(1) rotate(360deg); }
-            75% { bottom: 75%; transform: translateX(-50%) scale(1.2) rotate(1080deg); }
-            92% { bottom: calc(100vh - 180px); transform: translateX(85px) scale(0.9) rotate(1080deg); }
-            100% { bottom: calc(100vh - 195px); transform: translateX(90px) scale(0.9) rotate(1080deg); }
-        }
-
-        .ai-robot-wrapper {
-            animation: robotHover 3s ease-in-out infinite 10.5s;
-        }
-
-        @keyframes robotHover {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .spark {
-            position: absolute;
-            width: 3px; height: 12px;
-            background: #0ea5e9;
-            filter: blur(1px);
-            opacity: 0;
-            z-index: 110;
-        }
-        .spark-anim {
-            animation: sparkStrike 0.4s ease-out forwards;
-        }
-        @keyframes sparkStrike {
-            0% { transform: translate(0,0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
-        }
-
-        .jet-flame {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 18px;
-            height: 45px;
-            background: radial-gradient(circle, #fff, #0ea5e9, transparent);
-            border-radius: 50%;
-            filter: blur(6px);
-            opacity: 0;
-            animation: jetPulse 0.1s infinite alternate, engineLogicAI 10.5s forwards;
-        }
-
-        @keyframes jetPulse {
-            from { height: 30px; opacity: 0.8; transform: translateX(-50%) scaleX(1); }
-            to { height: 55px; opacity: 1; transform: translateX(-50%) scaleX(1.4); }
-        }
-
-        @keyframes engineLogicAI {
-            0%, 25% { opacity: 1; scale: 1; }
-            30%, 48% { opacity: 0.3; scale: 0.5; }
-            55%, 85% { opacity: 1; scale: 2.5; }
-            100% { opacity: 0; }
-        }
-
-        .speech-bubble {
-            position: absolute;
-            top: -75px;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            background: #ffffff;
-            color: #000;
-            padding: 10px 22px;
-            border-radius: 24px;
-            font-size: 14px;
-            font-weight: 800;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            white-space: nowrap;
-            z-index: 120;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .show-speech {
-            transform: translateX(-50%) scale(1);
         }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
+
         .glass-card:hover {
-            border-color: rgba(14, 165, 233, 0.3);
-            background: rgba(14, 165, 233, 0.05);
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, #fff, #3b82f6, #fff);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 5s linear infinite;
+        }
+
+        @keyframes shimmer { to { background-position: 200% center; } }
     </style>
 </head>
 <body class="noise">
     
-    <!-- Latar Belakang Digital AI -->
-    <div class="digital-ai-bg"></div>
-    <div class="ai-scanner"></div>
-    <div class="gradient-sphere sphere-1"></div>
-    <div class="gradient-sphere sphere-2"></div>
+    <!-- Designer Background Layers -->
+    <div class="design-canvas"></div>
+    <div class="studio-light light-1"></div>
+    <div class="studio-light light-2"></div>
     
-    <!-- Robot AI Premium Advanced -->
-    <div class="ai-robot-container">
-        <div class="ai-robot-wrapper relative">
-            <div id="ai-speech" class="speech-bubble">MENYEDIAKAN SISTEM... ⚙️</div>
-            
-            <div id="spark-box" class="absolute inset-0 pointer-events-none"></div>
+    <!-- Abstract Designer Elements -->
+    <div class="floating-element w-32 h-32 top-20 left-[10%] rotate-12 opacity-20 hidden md:block"></div>
+    <div class="floating-element w-24 h-48 bottom-40 right-[15%] -rotate-6 opacity-10 hidden md:block"></div>
 
-            <div class="robot-ai-unit w-32 h-32 relative">
-                <svg viewBox="0 0 120 120" class="w-full h-full filter drop-shadow(0 0 20px rgba(14, 165, 233, 0.8))">
-                    <defs>
-                        <linearGradient id="aiBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ffffff" />
-                            <stop offset="100%" style="stop-color:#cbd5e1" />
-                        </linearGradient>
-                        <radialGradient id="aiCoreGlow">
-                            <stop offset="0%" style="stop-color:#fff" />
-                            <stop offset="50%" style="stop-color:#0ea5e9" />
-                            <stop offset="100%" style="stop-color:transparent" />
-                        </radialGradient>
-                    </defs>
-                    <ellipse cx="60" cy="90" rx="15" ry="5" fill="rgba(14, 165, 233, 0.3)">
-                        <animate attributeName="rx" values="12;18;12" dur="2s" repeatCount="indefinite" />
-                    </ellipse>
-                    <path d="M40 45 Q40 30 60 30 Q80 30 80 45 L80 75 Q80 85 60 85 Q40 85 40 75 Z" fill="url(#aiBodyGrad)" stroke="#64748b" stroke-width="0.5" />
-                    <circle cx="60" cy="65" r="7" fill="url(#aiCoreGlow)">
-                        <animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite" />
-                    </circle>
-                    <g>
-                        <path d="M42 38 Q42 15 60 15 Q78 15 78 38 Q78 48 60 48 Q42 48 42 38 Z" fill="url(#aiBodyGrad)" stroke="#64748b" stroke-width="0.5" />
-                        <rect x="48" y="26" width="24" height="10" rx="5" fill="#0f172a" />
-                        <rect x="50" y="29" width="20" height="4" rx="2" fill="#0ea5e9">
-                            <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite" />
-                        </rect>
-                        <circle cx="42" cy="35" r="3" fill="#94a3b8" />
-                        <circle cx="78" cy="35" r="3" fill="#94a3b8" />
-                    </g>
-                    <path d="M30 50 Q25 50 25 65" stroke="url(#aiBodyGrad)" stroke-width="6" stroke-linecap="round" fill="none" />
-                    <g id="ai-hand-wave">
-                        <path d="M90 50 Q95 50 95 65" stroke="url(#aiBodyGrad)" stroke-width="6" stroke-linecap="round" fill="none" transform-origin="90 50" />
-                        <animateTransform attributeName="transform" type="rotate" values="0; -40; 0" dur="2s" repeatCount="indefinite" begin="10s" />
-                    </g>
-                </svg>
-                <div class="jet-flame"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="max-w-md mx-auto px-6 py-16 flex flex-col items-center relative z-10">
+    <div class="max-w-md mx-auto px-6 py-20 flex flex-col items-center relative z-10">
         
-        <header class="text-center mb-12 w-full flex flex-col items-center">
-            <div class="relative group mb-6">
-                <div class="absolute -inset-2 bg-sky-500/20 rounded-full blur-2xl opacity-40 group-hover:opacity-80 transition duration-1000"></div>
-                <div class="relative p-[3px] rounded-full bg-gradient-to-tr from-white/10 to-white/5 shadow-2xl">
-                    <img src="https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg" alt="RIDZUAN (MFR)" class="w-32 h-32 object-cover rounded-full border-4 border-[#020202]">
-                    <div class="absolute bottom-1 right-3 bg-sky-500 w-6 h-6 rounded-full border-4 border-[#020202] flex items-center justify-center shadow-lg">
-                        <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
+        <header class="text-center mb-14 w-full flex flex-col items-center">
+            <div class="relative group mb-8">
+                <!-- Outer Ring Glow -->
+                <div class="absolute -inset-3 bg-blue-500/10 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+                
+                <div class="relative p-[2px] rounded-full bg-gradient-to-tr from-white/20 via-white/5 to-transparent shadow-2xl">
+                    <img 
+                        src="https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg" 
+                        alt="RIDZUAN (MFR)" 
+                        class="w-32 h-32 object-cover rounded-full border-4 border-[#050505]"
+                    >
+                    <!-- Status Active -->
+                    <div class="absolute bottom-2 right-4 bg-blue-500 w-5 h-5 rounded-full border-4 border-[#050505] shadow-lg">
+                        <span class="absolute inset-0 bg-blue-400 rounded-full animate-ping opacity-75"></span>
                     </div>
                 </div>
             </div>
-            <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">RIDZUAN <span class="text-sky-500">(MFR)</span></h1>
-            <div class="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full mb-6">
-                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-sky-400">BizOn9 Empire</span>
+
+            <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">
+                RIDZUAN <span class="text-blue-500">(MFR)</span>
+            </h1>
+            
+            <div class="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-lg mb-6 backdrop-blur-md">
+                <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">BizOn9 Empire</span>
             </div>
-            <p class="text-neutral-400 text-[15px] leading-relaxed max-w-[320px] font-medium">Membina produk digital dan website/landing page yang cantik. Jika berminat boleh klik butang dibawah.</p>
+
+            <p class="text-neutral-400 text-[15px] leading-relaxed max-w-[340px] font-medium italic">
+                "Membina produk digital dan website/landing page yang cantik. Jika berminat boleh klik butang dibawah."
+            </p>
         </header>
 
-        <div id="links-list" class="w-full space-y-4"></div>
+        <!-- Main Links Section -->
+        <div id="links-list" class="w-full space-y-4">
+            <!-- Content generated by JS -->
+        </div>
 
-        <footer class="mt-24 text-center pb-8">
-            <div class="h-px w-12 bg-white/5 mx-auto mb-6"></div>
-            <p class="text-[11px] uppercase tracking-[0.3em] text-neutral-600 font-bold">
-                &copy; <span id="year"></span> BizOn9 Empire &bull; Dibina oleh MFR
+        <!-- Footer -->
+        <footer class="mt-28 text-center pb-10">
+            <div class="h-px w-10 bg-white/10 mx-auto mb-6"></div>
+            <p class="text-[10px] uppercase tracking-[0.4em] text-neutral-600 font-bold">
+                &copy; <span id="year"></span> BizOn9 Empire &bull; Minimalist Portfolio
             </p>
         </footer>
     </div>
 
     <script>
         const links = [
-            { title: "Laman Web Rasmi", desc: "Lihat ekosistem BizOn9 Empire", icon: "layout", color: "text-sky-400", url: "#", highlight: true },
-            { title: "Instagram", desc: "@mfrdotbiz - Gaya hidup digital", icon: "instagram", color: "text-pink-500", url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag==" },
-            { title: "TikTok Profile", desc: "@mfr_rakankongsi - Tips & Tutorial", icon: "video", color: "text-white", url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu", isTiktok: true },
-            { title: "WhatsApp Business", desc: "Contact MFR untuk konsultasi", icon: "message-circle", color: "text-emerald-500", url: "https://wa.me/60177798786" }
+            { 
+                title: "Laman Web Rasmi", 
+                desc: "Ekosistem BizOn9 Empire", 
+                icon: "globe", 
+                color: "text-blue-400", 
+                url: "#", 
+                highlight: true 
+            },
+            { 
+                title: "Instagram", 
+                desc: "@mfrdotbiz - Visual & Design", 
+                icon: "instagram", 
+                color: "text-pink-500", 
+                url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag==" 
+            },
+            { 
+                title: "TikTok Profile", 
+                desc: "@mfr_rakankongsi - Tech Tips", 
+                icon: "tiktok", 
+                color: "text-white", 
+                url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu" 
+            },
+            { 
+                title: "WhatsApp Business", 
+                desc: "Mula projek anda hari ini", 
+                icon: "message-square", 
+                color: "text-emerald-500", 
+                url: "https://wa.me/60177798786" 
+            }
         ];
 
         function render() {
             const container = document.getElementById('links-list');
-            container.innerHTML = links.map(l => `
-                <a href="${l.url}" target="_blank" rel="noopener" class="glass-card group flex items-center p-4 rounded-2xl relative overflow-hidden">
-                    ${l.highlight ? '<div class="absolute inset-0 bg-blue-500/5 animate-pulse"></div>' : ''}
-                    <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform">
-                        ${l.isTiktok ? `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${l.color}"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" /></svg>` : `<i data-lucide="${l.icon}" class="w-6 h-6 ${l.color}"></i>`}
-                    </div>
-                    <div class="ml-4 flex-grow">
-                        <h2 class="text-sm font-bold text-white mb-0.5">${l.title}</h2>
-                        <p class="text-[11px] text-neutral-500 font-medium">${l.desc}</p>
-                    </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-600 group-hover:text-white transform group-hover:translate-x-1 transition-all"></i>
-                </a>
-            `).join('');
+            container.innerHTML = links.map(l => {
+                let iconHtml = `<i data-lucide="${l.icon}" class="w-5 h-5 ${l.color}"></i>`;
+                
+                // SVG Khas untuk TikTok kerana Lucide CDN selalunya tidak menyokong logo jenama secara terus
+                if (l.icon === 'tiktok') {
+                    iconHtml = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${l.color}">
+                            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+                        </svg>
+                    `;
+                }
+
+                return `
+                    <a href="${l.url}" target="_blank" rel="noopener" 
+                       class="glass-card group flex items-center p-4 rounded-2xl relative overflow-hidden">
+                        ${l.highlight ? '<div class="absolute inset-0 bg-blue-500/5"></div>' : ''}
+                        
+                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-white/10 transition-colors">
+                            ${iconHtml}
+                        </div>
+
+                        <div class="ml-4 flex-grow">
+                            <h2 class="text-sm font-bold text-white mb-0.5 ${l.highlight ? 'shimmer-text' : ''}">${l.title}</h2>
+                            <p class="text-[11px] text-neutral-500 font-medium tracking-tight">${l.desc}</p>
+                        </div>
+
+                        <div class="text-neutral-600 group-hover:text-white transform group-hover:translate-x-1 transition-all">
+                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
             lucide.createIcons();
         }
 
-        function createSparks() {
-            const box = document.getElementById('spark-box');
-            for(let i=0; i<15; i++) {
-                const s = document.createElement('div');
-                s.className = 'spark spark-anim';
-                const x = (Math.random() - 0.5) * 220;
-                const y = (Math.random() - 0.5) * 220;
-                s.style.setProperty('--x', `${x}px`);
-                s.style.setProperty('--y', `${y}px`);
-                s.style.left = '50%'; s.style.top = '50%';
-                box.appendChild(s);
-                setTimeout(() => s.remove(), 400);
-            }
-        }
-
-        function handleSpeech() {
-            const speech = document.getElementById('ai-speech');
-            speech.classList.add('show-speech');
-            
-            setTimeout(() => { speech.innerHTML = "YIHAA!! 🚀"; }, 500);
-            
-            setTimeout(() => { 
-                speech.innerHTML = "ALAMAK!! 😨"; 
-                createSparks(); 
-            }, 3000);
-            
-            setTimeout(() => { 
-                speech.innerHTML = "MENYELARAS SEMULA... ⚙️"; 
-                createSparks(); 
-            }, 4600);
-            
-            setTimeout(() => { 
-                speech.innerHTML = "ADUHH PENING NYA!! 🌀"; 
-            }, 6000);
-            
-            setTimeout(() => { 
-                speech.innerHTML = "MFR ONLINE! 🤖"; 
-            }, 10000);
-        }
-
         document.getElementById('year').textContent = new Date().getFullYear();
-        document.addEventListener('DOMContentLoaded', () => {
-            render();
-            handleSpeech();
-        });
+        document.addEventListener('DOMContentLoaded', render);
     </script>
 </body>
 </html>
