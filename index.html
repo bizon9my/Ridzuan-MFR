@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
         
@@ -16,6 +17,9 @@
             --designer-grid: rgba(255, 255, 255, 0.03);
             --snow-color: rgba(255, 255, 255, 0.8);
             --accent-blue: #3b82f6;
+            --ice-white: #f0f9ff;
+            --ice-blue: #7dd3fc;
+            --ice-deep: #0ea5e9;
         }
 
         body {
@@ -37,7 +41,7 @@
             background-size: 50px 50px;
         }
 
-        /* Kesan Noise & Grain */
+        /* Kesan Noise */
         .noise::before {
             content: "";
             position: fixed;
@@ -56,7 +60,7 @@
         .light-1 { width: 800px; height: 800px; background: radial-gradient(circle, #3b82f6, transparent); top: -300px; left: -200px; }
         .light-2 { width: 600px; height: 600px; background: radial-gradient(circle, #8b5cf6, transparent); bottom: -100px; right: -100px; }
 
-        /* --- KESAN SALJI (SNOW) --- */
+        /* Kesan Salji */
         .snow-particle {
             position: fixed;
             top: -10px;
@@ -66,15 +70,9 @@
             z-index: 100;
             animation: snowFall linear forwards;
         }
+        @keyframes snowFall { to { transform: translateY(105vh) translateX(20px); opacity: 0; } }
 
-        @keyframes snowFall {
-            to {
-                transform: translateY(105vh) translateX(20px);
-                opacity: 0;
-            }
-        }
-
-        /* --- KESAN ASAP SEJUK (COLD MIST) --- */
+        /* Kesan Wap Sejuk */
         .mist-particle {
             position: absolute;
             background: rgba(255, 255, 255, 0.4);
@@ -84,14 +82,41 @@
             z-index: 15;
             animation: mistRise 4s ease-out forwards;
         }
-
         @keyframes mistRise {
             0% { transform: translateY(0) scale(1); opacity: 0; }
             20% { opacity: 0.5; }
             100% { transform: translateY(-80px) translateX(20px) scale(3); opacity: 0; }
         }
 
-        /* Kesan Glow pada Profil */
+        /* Kesan Nama Membeku (Ice Text Effect - Hanya dalam tulisan) */
+        .ice-text {
+            background: linear-gradient(
+                to right,
+                var(--ice-deep) 0%,
+                var(--ice-blue) 20%,
+                var(--ice-white) 40%,
+                #ffffff 50%,
+                var(--ice-white) 60%,
+                var(--ice-blue) 80%,
+                var(--ice-deep) 100%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: iceFreeze 5s linear infinite;
+            position: relative;
+            display: inline-block;
+            font-weight: 900;
+            /* Membuang drop-shadow luar */
+            filter: none;
+        }
+
+        @keyframes iceFreeze {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
         .profile-container { position: relative; z-index: 10; }
         .profile-glow {
             position: absolute;
@@ -102,11 +127,7 @@
             opacity: 0.6;
             animation: pulseGlow 3s infinite alternate;
         }
-
-        @keyframes pulseGlow {
-            0% { transform: scale(1); opacity: 0.4; }
-            100% { transform: scale(1.1); opacity: 0.7; }
-        }
+        @keyframes pulseGlow { 0% { transform: scale(1); opacity: 0.4; } 100% { transform: scale(1.1); opacity: 0.7; } }
 
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
@@ -135,7 +156,7 @@
     
     <div class="max-w-md mx-auto px-6 py-20 flex flex-col items-center relative z-10" id="main-content">
         
-        <header class="text-center mb-14 w-full flex flex-col items-center">
+        <header class="text-center mb-10 w-full flex flex-col items-center">
             <div class="relative mb-8 profile-container" id="profile-area">
                 <div class="profile-glow"></div>
                 <div class="relative p-[3px] rounded-full bg-gradient-to-tr from-blue-400 via-white/20 to-indigo-500 shadow-2xl z-20">
@@ -144,25 +165,24 @@
                         alt="RIDZUAN (MFR)" 
                         class="w-32 h-32 object-cover rounded-full border-4 border-[#050505]"
                     >
-                    <!-- Status Aktif -->
                     <div class="absolute bottom-2 right-4 bg-blue-500 w-5 h-5 rounded-full border-4 border-[#050505] shadow-lg">
                         <span class="absolute inset-0 bg-blue-300 rounded-full animate-ping opacity-75"></span>
                     </div>
                 </div>
             </div>
 
-            <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">
-                RIDZUAN <span class="text-blue-400">(MFR)</span>
+            <h1 class="text-3xl font-extrabold tracking-tight mb-2">
+                <span class="ice-text">RIDZUAN (MFR)</span>
             </h1>
             
-            <div class="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-lg mb-6 backdrop-blur-md">
+            <div class="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-lg mb-6 backdrop-blur-md mx-auto w-fit">
                 <i data-lucide="snowflake" class="w-3.5 h-3.5 text-blue-300"></i>
                 <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">BizOn9 Empire</span>
             </div>
 
-            <p class="text-neutral-400 text-[14px] leading-relaxed max-w-[360px] font-medium">
+            <p class="text-neutral-400 text-[14px] leading-relaxed max-w-[360px] font-medium mb-8">
                 Membina produk digital dan website/landing page yang cantik.<br>
-                <span class="text-blue-300">Seorang trader melakukan copytrade 100% mengunakan robot trade (autopilot).</span><br>
+                <span class="text-blue-300 font-semibold">Seorang trader melakukan copytrade 100% mengunakan robot trade (autopilot).</span><br>
                 Jika berminat boleh klik butang dibawah.
             </p>
         </header>
@@ -179,7 +199,7 @@
     </div>
 
     <script>
-        // Logik Zarah Salji (Global)
+        // Kesan Salji
         function createSnowflake() {
             const snow = document.createElement('div');
             snow.className = 'snow-particle';
@@ -193,87 +213,35 @@
             snow.style.opacity = opacity;
             snow.style.animationDuration = `${duration}s`;
             document.body.appendChild(snow);
-            setTimeout(() => { snow.remove(); }, duration * 1000);
+            setTimeout(() => snow.remove(), duration * 1000);
         }
         setInterval(createSnowflake, 150);
 
-        // Logik Wap Sejuk (Profile Only)
+        // Wap Sejuk pada Profil
         function createColdMist() {
             const container = document.getElementById('profile-area');
             if (!container) return;
             const mist = document.createElement('div');
             mist.className = 'mist-particle';
-            
-            // Posisi rawak di sekitar gambar profil
             const size = Math.random() * 30 + 20;
             const left = Math.random() * 100;
-            
             mist.style.width = `${size}px`;
             mist.style.height = `${size}px`;
             mist.style.left = `${left}%`;
             mist.style.bottom = '10px';
-            
             container.appendChild(mist);
-            
-            setTimeout(() => {
-                mist.remove();
-            }, 4000);
+            setTimeout(() => mist.remove(), 4000);
         }
         setInterval(createColdMist, 400);
 
         const links = [
-            { 
-                title: "Copytrade VRS EA", 
-                desc: "Adakah anda seorang trader GOLD tegar? Klik sini", 
-                icon: "trending-up", 
-                theme: "blue", 
-                url: "https://bizon9my.github.io/Join-Group-CT-VRS-EA-Telegram", 
-                highlight: true 
-            },
-            { 
-                title: "RK PRO (Automasi Platfrom)", 
-                desc: "AKAN DATANG", 
-                icon: "zap", 
-                theme: "cyan", 
-                url: "#",
-                isComingSoon: true
-            },
-            { 
-                title: "Servis Landing Page/Website Simple", 
-                desc: "Dapatkan servis kami disini", 
-                icon: "layout-template", 
-                theme: "indigo", 
-                url: "https://bizon9my.github.io/Servis-Landing-Page/" 
-            },
-            { 
-                title: "Servis Design Gambar Produk", 
-                desc: "Dapatkan servis kami disini", 
-                icon: "image", 
-                theme: "amber", 
-                url: "#",
-                isComingSoon: true
-            },
-            { 
-                title: "Instagram", 
-                desc: "Laman Sosial", 
-                icon: "instagram", 
-                theme: "rose", 
-                url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag==" 
-            },
-            { 
-                title: "Tiktok", 
-                desc: "Laman sosial", 
-                icon: "tiktok", 
-                theme: "neutral", 
-                url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu" 
-            },
-            { 
-                title: "Whatsapp Admin", 
-                desc: "Hubungi admin disini", 
-                icon: "message-square", 
-                theme: "emerald", 
-                url: "https://wa.me/60177798786" 
-            }
+            { title: "Copytrade VRS EA", desc: "Adakah anda seorang trader GOLD tegar? Klik sini", icon: "trending-up", theme: "blue", url: "https://bizon9my.github.io/Join-Group-CT-VRS-EA-Telegram", highlight: true },
+            { title: "RK PRO (Automasi Platfrom)", desc: "AKAN DATANG", icon: "zap", theme: "cyan", url: "#", isComingSoon: true },
+            { title: "Servis Landing Page/Website Simple", desc: "Dapatkan servis kami disini", icon: "layout-template", theme: "indigo", url: "https://bizon9my.github.io/Servis-Landing-Page/" },
+            { title: "Servis Design Gambar Produk", desc: "Dapatkan servis kami disini", icon: "image", theme: "amber", url: "#", isComingSoon: true },
+            { title: "Instagram", desc: "Laman Sosial", icon: "instagram", theme: "rose", url: "https://www.instagram.com/mfrdotbiz?igsh=MXQzYWVvNnU1d2xtag==" },
+            { title: "Tiktok", desc: "Laman sosial", icon: "tiktok", theme: "neutral", url: "https://www.tiktok.com/@mfr_rakankongsi?_r=1&_t=ZS-944GOsJjAmu" },
+            { title: "Whatsapp Admin", desc: "Hubungi admin disini", icon: "message-square", theme: "emerald", url: "https://wa.me/60177798786" }
         ];
 
         const themeMap = {
@@ -293,37 +261,22 @@
             container.innerHTML = links.map(l => {
                 const colors = themeMap[l.theme] || themeMap.blue;
                 let iconHtml = `<i data-lucide="${l.icon}" class="w-5 h-5 ${colors.icon}"></i>`;
-                
                 if (l.icon === 'tiktok') {
-                    iconHtml = `
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${colors.icon}">
-                            <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-                        </svg>
-                    `;
+                    iconHtml = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${colors.icon}"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" /></svg>`;
                 }
-
                 return `
                     <a href="${l.url}" ${l.isComingSoon ? 'onclick="return false;"' : 'target="_blank"'} rel="noopener" 
                        class="glass-card group flex items-center p-4 rounded-2xl relative overflow-hidden ${colors.border} ${l.isComingSoon ? 'cursor-default opacity-80' : ''}"
                        style="--shimmer-color: ${colors.shimmer}">
-                        
-                        ${l.isComingSoon ? `
-                            <div class="absolute top-0 right-0 bg-amber-500 text-[9px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-wider text-black z-20">
-                                Akan Datang
-                            </div>
-                        ` : ''}
-
+                        ${l.isComingSoon ? `<div class="absolute top-0 right-0 bg-amber-500 text-[9px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-wider text-black z-20">Akan Datang</div>` : ''}
                         ${l.highlight ? `<div class="absolute inset-0 ${colors.glow} animate-pulse"></div>` : ''}
-                        
                         <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-105 transition-all duration-300">
                             ${iconHtml}
                         </div>
-
                         <div class="ml-4 flex-grow">
                             <h2 class="text-sm font-bold text-white mb-0.5 ${l.highlight ? 'shimmer-text' : ''}">${l.title}</h2>
                             <p class="text-[11px] text-neutral-500 font-medium tracking-tight">${l.desc}</p>
                         </div>
-
                         <div class="text-neutral-600 ${l.isComingSoon ? 'hidden' : 'group-hover:text-white transform group-hover:translate-x-1 transition-all'}">
                             <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
                         </div>
