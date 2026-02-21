@@ -14,9 +14,8 @@
         :root {
             --bg-dark: #050505;
             --designer-grid: rgba(255, 255, 255, 0.03);
-            --flame-1: #f97316;
-            --flame-2: #ef4444;
-            --flame-3: #facc15;
+            --snow-color: rgba(255, 255, 255, 0.8);
+            --accent-blue: #3b82f6;
         }
 
         body {
@@ -47,43 +46,6 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* Kesan Api pada Profil */
-        .flame-container {
-            position: relative;
-            z-index: 10;
-        }
-
-        .flame-glow {
-            position: absolute;
-            inset: -10px;
-            background: radial-gradient(circle, var(--flame-1), var(--flame-2), transparent 70%);
-            border-radius: 50%;
-            filter: blur(20px);
-            opacity: 0.6;
-            animation: flicker 0.15s infinite alternate;
-        }
-
-        @keyframes flicker {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        /* Zarah Asap (Smoke Particles) */
-        .smoke-particle {
-            position: absolute;
-            background: rgba(200, 200, 200, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(8px);
-            z-index: 5;
-            animation: smokeRise 3s ease-out forwards;
-        }
-
-        @keyframes smokeRise {
-            0% { transform: translateY(0) scale(1); opacity: 0.4; }
-            100% { transform: translateY(-120px) scale(3); opacity: 0; }
-        }
-
         /* Studio Lights */
         .studio-light {
             position: fixed;
@@ -94,10 +56,61 @@
         .light-1 { width: 800px; height: 800px; background: radial-gradient(circle, #3b82f6, transparent); top: -300px; left: -200px; }
         .light-2 { width: 600px; height: 600px; background: radial-gradient(circle, #8b5cf6, transparent); bottom: -100px; right: -100px; }
 
+        /* --- KESAN SALJI (SNOW) --- */
+        .snow-particle {
+            position: fixed;
+            top: -10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            animation: snowFall linear forwards;
+        }
+
+        @keyframes snowFall {
+            to {
+                transform: translateY(105vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        /* --- KESAN ASAP SEJUK (COLD MIST) --- */
+        .mist-particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(12px);
+            z-index: 15;
+            animation: mistRise 4s ease-out forwards;
+        }
+
+        @keyframes mistRise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: translateY(-80px) translateX(20px) scale(3); opacity: 0; }
+        }
+
+        /* Kesan Glow pada Profil */
+        .profile-container { position: relative; z-index: 10; }
+        .profile-glow {
+            position: absolute;
+            inset: -15px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent 70%);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.6;
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(1.1); opacity: 0.7; }
+        }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
@@ -110,55 +123,52 @@
             background-clip: text;
             animation: shimmer 5s linear infinite;
         }
-
         @keyframes shimmer { to { background-position: 200% center; } }
     </style>
 </head>
 <body class="noise">
     
+    <!-- Latar Belakang -->
     <div class="design-canvas"></div>
     <div class="studio-light light-1"></div>
     <div class="studio-light light-2"></div>
     
-    <div class="max-w-md mx-auto px-6 py-20 flex flex-col items-center relative z-10">
+    <div class="max-w-md mx-auto px-6 py-20 flex flex-col items-center relative z-10" id="main-content">
         
         <header class="text-center mb-14 w-full flex flex-col items-center">
-            <!-- Container Gambar Profil dengan Api & Asap -->
-            <div class="relative mb-8 flame-container" id="profile-area">
-                <!-- Lapisan Api -->
-                <div class="flame-glow"></div>
-                
-                <div class="relative p-[3px] rounded-full bg-gradient-to-tr from-orange-500 via-red-500 to-yellow-500 shadow-2xl z-20">
+            <div class="relative mb-8 profile-container" id="profile-area">
+                <div class="profile-glow"></div>
+                <div class="relative p-[3px] rounded-full bg-gradient-to-tr from-blue-400 via-white/20 to-indigo-500 shadow-2xl z-20">
                     <img 
                         src="https://i.postimg.cc/XJ5TZVnx/IMG_20260130_044021.jpg" 
                         alt="RIDZUAN (MFR)" 
                         class="w-32 h-32 object-cover rounded-full border-4 border-[#050505]"
                     >
                     <!-- Status Aktif -->
-                    <div class="absolute bottom-2 right-4 bg-orange-500 w-5 h-5 rounded-full border-4 border-[#050505] shadow-lg">
-                        <span class="absolute inset-0 bg-yellow-400 rounded-full animate-ping opacity-75"></span>
+                    <div class="absolute bottom-2 right-4 bg-blue-500 w-5 h-5 rounded-full border-4 border-[#050505] shadow-lg">
+                        <span class="absolute inset-0 bg-blue-300 rounded-full animate-ping opacity-75"></span>
                     </div>
                 </div>
             </div>
 
             <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">
-                RIDZUAN <span class="text-orange-500">(MFR)</span>
+                RIDZUAN <span class="text-blue-400">(MFR)</span>
             </h1>
             
             <div class="flex items-center space-x-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-lg mb-6 backdrop-blur-md">
-                <i data-lucide="flame" class="w-3.5 h-3.5 text-orange-400"></i>
+                <i data-lucide="snowflake" class="w-3.5 h-3.5 text-blue-300"></i>
                 <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">BizOn9 Empire</span>
             </div>
 
-            <p class="text-neutral-400 text-[15px] leading-relaxed max-w-[340px] font-medium italic">
-                "Membina produk digital dan website/landing page yang cantik. Jika berminat boleh klik butang dibawah."
+            <p class="text-neutral-400 text-[14px] leading-relaxed max-w-[360px] font-medium">
+                Membina produk digital dan website/landing page yang cantik.<br>
+                <span class="text-blue-300">Seorang trader melakukan copytrade 100% mengunakan robot trade (autopilot).</span><br>
+                Jika berminat boleh klik butang dibawah.
             </p>
         </header>
 
-        <!-- Bahagian Pautan Utama -->
-        <div id="links-list" class="w-full space-y-4">
-            <!-- Kandungan dijana oleh JS -->
-        </div>
+        <!-- Senarai Pautan -->
+        <div id="links-list" class="w-full space-y-4"></div>
 
         <footer class="mt-28 text-center pb-10">
             <div class="h-px w-10 bg-white/10 mx-auto mb-6"></div>
@@ -169,45 +179,64 @@
     </div>
 
     <script>
-        // Penjana Asap Dinamik
-        function createSmoke() {
+        // Logik Zarah Salji (Global)
+        function createSnowflake() {
+            const snow = document.createElement('div');
+            snow.className = 'snow-particle';
+            const size = Math.random() * 5 + 2;
+            const startX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 3 + 5;
+            const opacity = Math.random() * 0.5 + 0.3;
+            snow.style.width = `${size}px`;
+            snow.style.height = `${size}px`;
+            snow.style.left = `${startX}px`;
+            snow.style.opacity = opacity;
+            snow.style.animationDuration = `${duration}s`;
+            document.body.appendChild(snow);
+            setTimeout(() => { snow.remove(); }, duration * 1000);
+        }
+        setInterval(createSnowflake, 150);
+
+        // Logik Wap Sejuk (Profile Only)
+        function createColdMist() {
             const container = document.getElementById('profile-area');
             if (!container) return;
-            const smoke = document.createElement('div');
-            smoke.className = 'smoke-particle';
+            const mist = document.createElement('div');
+            mist.className = 'mist-particle';
             
-            const size = Math.random() * 20 + 10;
-            const left = Math.random() * 80 + 20;
+            // Posisi rawak di sekitar gambar profil
+            const size = Math.random() * 30 + 20;
+            const left = Math.random() * 100;
             
-            smoke.style.width = `${size}px`;
-            smoke.style.height = `${size}px`;
-            smoke.style.left = `${left}px`;
-            smoke.style.bottom = '10px';
+            mist.style.width = `${size}px`;
+            mist.style.height = `${size}px`;
+            mist.style.left = `${left}%`;
+            mist.style.bottom = '10px';
             
-            container.appendChild(smoke);
+            container.appendChild(mist);
             
             setTimeout(() => {
-                smoke.remove();
-            }, 3000);
+                mist.remove();
+            }, 4000);
         }
-
-        setInterval(createSmoke, 200);
+        setInterval(createColdMist, 400);
 
         const links = [
             { 
                 title: "Copytrade VRS EA", 
                 desc: "Adakah anda seorang trader GOLD tegar? Klik sini", 
                 icon: "trending-up", 
-                theme: "orange", 
-                url: "https://bizon9my.github.io/Copytrade-VRS-EA/", 
+                theme: "blue", 
+                url: "https://bizon9my.github.io/Join-Group-CT-VRS-EA-Telegram", 
                 highlight: true 
             },
             { 
                 title: "RK PRO (Automasi Platfrom)", 
-                desc: "Tiktok, Tread, Whtsapp, Instagram", 
+                desc: "AKAN DATANG", 
                 icon: "zap", 
                 theme: "cyan", 
-                url: "https://bizon9my.github.io/RK-Pro/" 
+                url: "#",
+                isComingSoon: true
             },
             { 
                 title: "Servis Landing Page/Website Simple", 
@@ -248,7 +277,7 @@
         ];
 
         const themeMap = {
-            orange: { icon: "text-orange-400", border: "hover:border-orange-500/50", glow: "bg-orange-500/10", shimmer: "#fb923c" },
+            blue: { icon: "text-blue-400", border: "hover:border-blue-500/50", glow: "bg-blue-500/10", shimmer: "#60a5fa" },
             indigo: { icon: "text-indigo-400", border: "hover:border-indigo-500/50", glow: "bg-indigo-500/10", shimmer: "#818cf8" },
             violet: { icon: "text-violet-400", border: "hover:border-violet-500/50", glow: "bg-violet-500/10", shimmer: "#a78bfa" },
             amber: { icon: "text-amber-400", border: "hover:border-amber-500/50", glow: "bg-amber-500/10", shimmer: "#fbbf24" },
@@ -262,7 +291,7 @@
             const container = document.getElementById('links-list');
             if (!container) return;
             container.innerHTML = links.map(l => {
-                const colors = themeMap[l.theme] || themeMap.orange;
+                const colors = themeMap[l.theme] || themeMap.blue;
                 let iconHtml = `<i data-lucide="${l.icon}" class="w-5 h-5 ${colors.icon}"></i>`;
                 
                 if (l.icon === 'tiktok') {
@@ -301,7 +330,6 @@
                     </a>
                 `;
             }).join('');
-
             lucide.createIcons();
         }
 
