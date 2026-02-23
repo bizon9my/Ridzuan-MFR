@@ -88,7 +88,7 @@
             100% { transform: translateY(-80px) translateX(20px) scale(3); opacity: 0; }
         }
 
-        /* Kesan Nama Membeku (Ice Text Effect - Hanya dalam tulisan) */
+        /* Kesan Nama Membeku */
         .ice-text {
             background: linear-gradient(
                 to right,
@@ -108,10 +108,7 @@
             position: relative;
             display: inline-block;
             font-weight: 900;
-            /* Membuang drop-shadow luar */
-            filter: none;
         }
-
         @keyframes iceFreeze {
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
@@ -136,6 +133,41 @@
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
+        /* Modal / Popup Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 380px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            overflow: visible;
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
         .shimmer-text {
             background: linear-gradient(90deg, #fff, var(--shimmer-color, #3b82f6), #fff);
             background-size: 200% auto;
@@ -149,11 +181,31 @@
 </head>
 <body class="noise">
     
-    <!-- Latar Belakang -->
     <div class="design-canvas"></div>
     <div class="studio-light light-1"></div>
     <div class="studio-light light-2"></div>
     
+    <!-- Tetingkap Timbul (Modal) -->
+    <div id="copytrade-modal" class="modal-overlay" onclick="closePopup(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <!-- Butang Tutup -->
+            <button onclick="closePopup(event)" class="absolute -top-12 right-0 z-30 bg-white/10 hover:bg-white/20 p-2 rounded-full border border-white/20 transition-all">
+                <i data-lucide="x" class="w-5 h-5 text-white"></i>
+            </button>
+            
+            <div class="relative group">
+                <a href="https://t.me/+qCu5B_jduchhODI1" target="_blank" rel="noopener" class="block">
+                    <!-- Gambar Panduan tanpa overlay butang -->
+                    <img 
+                        src="https://i.postimg.cc/vHJVkPbn/1-Klik-Join-Copytrade-VRS-EA-2-Klik-3-Dot-3-Klik-Open-in-browser-(6).png" 
+                        alt="Panduan Join Copytrade" 
+                        class="w-full h-auto block rounded-3xl shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+                    >
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="max-w-md mx-auto px-6 py-20 flex flex-col items-center relative z-10" id="main-content">
         
         <header class="text-center mb-10 w-full flex flex-col items-center">
@@ -187,7 +239,6 @@
             </p>
         </header>
 
-        <!-- Senarai Pautan -->
         <div id="links-list" class="w-full space-y-4"></div>
 
         <footer class="mt-28 text-center pb-10">
@@ -199,7 +250,16 @@
     </div>
 
     <script>
-        // Kesan Salji
+        function openPopup() {
+            document.getElementById('copytrade-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup(e) {
+            document.getElementById('copytrade-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
         function createSnowflake() {
             const snow = document.createElement('div');
             snow.className = 'snow-particle';
@@ -217,7 +277,6 @@
         }
         setInterval(createSnowflake, 150);
 
-        // Wap Sejuk pada Profil
         function createColdMist() {
             const container = document.getElementById('profile-area');
             if (!container) return;
@@ -235,7 +294,14 @@
         setInterval(createColdMist, 400);
 
         const links = [
-            { title: "Copytrade VRS EA", desc: "Adakah anda seorang trader GOLD tegar? Klik sini", icon: "trending-up", theme: "blue", url: "https://bizon9my.github.io/Join-Group-CT-VRS-EA-Telegram", highlight: true },
+            { 
+                title: "Copytrade VRS EA", 
+                desc: "Adakah anda seorang trader GOLD tegar? Klik sini", 
+                icon: "trending-up", 
+                theme: "blue", 
+                url: "javascript:openPopup()", 
+                highlight: true 
+            },
             { title: "RK PRO (Automasi Platfrom)", desc: "AKAN DATANG", icon: "zap", theme: "cyan", url: "#", isComingSoon: true },
             { title: "Servis Landing Page/Website Simple", desc: "Dapatkan servis kami disini", icon: "layout-template", theme: "indigo", url: "https://bizon9my.github.io/Servis-Landing-Page/" },
             { title: "Servis Design Gambar Produk", desc: "Dapatkan servis kami disini", icon: "image", theme: "amber", url: "#", isComingSoon: true },
@@ -265,7 +331,7 @@
                     iconHtml = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${colors.icon}"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" /></svg>`;
                 }
                 return `
-                    <a href="${l.url}" ${l.isComingSoon ? 'onclick="return false;"' : 'target="_blank"'} rel="noopener" 
+                    <a href="${l.url}" ${l.isComingSoon ? 'onclick="return false;"' : (l.url.includes('javascript') ? '' : 'target="_blank"')} rel="noopener" 
                        class="glass-card group flex items-center p-4 rounded-2xl relative overflow-hidden ${colors.border} ${l.isComingSoon ? 'cursor-default opacity-80' : ''}"
                        style="--shimmer-color: ${colors.shimmer}">
                         ${l.isComingSoon ? `<div class="absolute top-0 right-0 bg-amber-500 text-[9px] font-black px-2 py-0.5 rounded-bl-lg uppercase tracking-wider text-black z-20">Akan Datang</div>` : ''}
